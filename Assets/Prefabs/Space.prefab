@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 114326891540521120}
   m_Layer: 0
   m_Name: Space
-  m_TagString: Untagged
+  m_TagString: Node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
