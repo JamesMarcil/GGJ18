@@ -45,9 +45,19 @@ public class GameGrid : MonoBehaviour
 
     public void GenerateGrid()
     {
-        foreach (Transform child in transform)
+        while (transform.childCount > 0)
         {
-            Destroy(child);
+            Transform child = transform.GetChild(0);
+            GameObject obj = child.gameObject;
+
+            if (Application.isEditor)
+            {
+                DestroyImmediate(obj);
+            }
+            else
+            {
+                Destroy(obj);
+            }
         }
 
         m_grid = new GameObject[NumEntries];
@@ -55,7 +65,7 @@ public class GameGrid : MonoBehaviour
         for (int i = 0; i < NumEntries; i++)
         {
             GameObject prefab = m_factory.GetPrefabForType(TileType.WALL);
-            GameObject obj = Instantiate(prefab, transform);
+            Instantiate(prefab, transform);
         }
     }
 }
