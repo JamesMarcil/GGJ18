@@ -181,6 +181,8 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         }
 
         m_hasGeneratedGrid = true;
+
+        GenerateConnectivity();
     }
 
     public bool GetIndexFromRowAndColumn(int row, int column, out int index)
