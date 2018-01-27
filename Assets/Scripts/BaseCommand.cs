@@ -2,13 +2,13 @@ using UnityEngine;
 
 public abstract class BaseCommand : ScriptableObject
 {
-    public virtual void OnStart()
+    public virtual void OnStart(GameObject target)
     {
     }
 
-    public virtual void OnStop()
+    public virtual void OnStop(GameObject target)
     {
     }
 
-    public abstract CommandStatus OnUpdated();
+    public abstract CommandStatus OnUpdated(GameObject target);
 }
