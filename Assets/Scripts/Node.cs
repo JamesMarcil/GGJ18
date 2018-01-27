@@ -101,6 +101,14 @@ public class Node : MonoBehaviour
         }
     }
 
+    public Vector3 GetCenter()
+    {
+        Vector3 center;
+        m_grid.GetCenterFromIndex(m_index, out center);
+        
+        return center;
+    }
+
     public bool IsConnected(Node rhs)
     {
         return m_grid.IsConnected(m_index, rhs.m_index);
