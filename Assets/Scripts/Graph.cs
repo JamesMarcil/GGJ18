@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -37,5 +38,16 @@ public class Graph
     {
         m_adjacencyMatrix[lhs, rhs] = false;
         m_adjacencyMatrix[rhs, lhs] = false;
+    }
+
+    public IEnumerable<int> Neighbors(int id)
+    {
+        for (int i = 0; i < m_numEntries; i++)
+        {
+            if (m_adjacencyMatrix[id, i])
+            {
+                yield return i;
+            }
+        }
     }
 }
