@@ -52,6 +52,11 @@ public class GameGridEditor : Editor
         EditorGUILayout.PropertyField(m_nodeWidth);
         EditorGUILayout.PropertyField(m_nodeHeight);
 
+        if (GUILayout.Button("Clear Grid"))
+        {
+            m_grid.ClearGrid();
+        }
+
         if (GUILayout.Button("Generate New Grid"))
         {
             m_grid.GenerateGrid();
