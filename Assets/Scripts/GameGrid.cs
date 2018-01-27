@@ -255,9 +255,28 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         return ((lhsInfo.Type != TileType.WALL) && (rhsInfo.Type != TileType.WALL));
     }
 
-    public void GenerateConnectivity()
+    public void ClearConnectivity()
     {
         m_graph.Clear();
+
+        GameObject[] connections = GameObject.FindGameObjectsWithTag("Connection");
+        for (int i = 0; i < connections.Length; i++)
+        {
+            GameObject obj = connections[i];
+            if (Application.isEditor)
+            {
+                DestroyImmediate(obj);
+            }
+            else
+            {
+                Destroy(obj);
+            }
+        }
+    }
+
+    public void GenerateConnectivity()
+    {
+        ClearConnectivity();
 
         for (int lhs = 0; lhs < NumEntries; lhs++)
         {

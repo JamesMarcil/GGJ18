@@ -69,6 +69,11 @@ public class GameGridEditor : Editor
         }
 
         EditorGUI.BeginDisabledGroup(!m_grid.HasGrid());
+        if (GUILayout.Button("Clear Connectivity"))
+        {
+            m_grid.ClearConnectivity();
+        }
+
         if (GUILayout.Button("Generate Connectivity"))
         {
             m_grid.GenerateConnectivity();
