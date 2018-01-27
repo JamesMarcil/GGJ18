@@ -33,6 +33,12 @@ public class GameGrid : MonoBehaviour
     [SerializeField]
     private int m_height;
 
+    [SerializeField] 
+    private float m_cellWidth;
+
+    [SerializeField] 
+    private float m_cellHeight;
+
     private TileFactory m_factory;
 
     private GameObject[] m_grid;
