@@ -1283,10 +1283,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  far clip plane: 15
+  field of view: 32.1
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 2.6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1309,7 +1309,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 539973047}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -2.55, y: 2.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3041,9 +3041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1525376507}
-  m_points:
-  - {x: 1.5, y: 3.5, z: 0}
-  - {x: 1.5, y: 2.5, z: 0}
+  m_points: []
 --- !u!120 &1484017673
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -3787,9 +3785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1525376507}
-  m_points:
-  - {x: 1.5, y: 2.5, z: 0}
-  - {x: 1.5, y: 3.5, z: 0}
+  m_points: []
 --- !u!120 &1623028704
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -4004,9 +4000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1525376507}
-  m_points:
-  - {x: 2.5, y: 2.5, z: 0}
-  - {x: 3.5, y: 2.5, z: 0}
+  m_points: []
 --- !u!120 &1655591261
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -4535,9 +4529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1525376507}
-  m_points:
-  - {x: 1.5, y: 2.5, z: 0}
-  - {x: 2.5, y: 2.5, z: 0}
+  m_points: []
 --- !u!120 &1879693844
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -4668,9 +4660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1525376507}
-  m_points:
-  - {x: 2.5, y: 2.5, z: 0}
-  - {x: 1.5, y: 2.5, z: 0}
+  m_points: []
 --- !u!120 &1914293697
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -4874,9 +4864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1525376507}
-  m_points:
-  - {x: 3.5, y: 2.5, z: 0}
-  - {x: 2.5, y: 2.5, z: 0}
+  m_points: []
 --- !u!120 &1966717199
 LineRenderer:
   m_ObjectHideFlags: 0
