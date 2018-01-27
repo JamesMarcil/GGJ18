@@ -23,8 +23,17 @@ public class GameGridEditor : Editor
     {
         serializedObject.Update();
 
-        EditorGUILayout.PropertyField(m_width);
+        if (m_width.intValue < 0)
+        {
+            m_width.intValue = 0;
+        }
 
+        if (m_height.intValue < 0)
+        {
+            m_height.intValue = 0;
+        }
+
+        EditorGUILayout.PropertyField(m_width);
         EditorGUILayout.PropertyField(m_height);
 
         if (GUILayout.Button("Generate Grid"))
