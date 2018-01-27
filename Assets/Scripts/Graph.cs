@@ -6,19 +6,20 @@ using UnityEngine;
 public class Graph
 {
     [SerializeField]
-    private int m_width;
-
-    [SerializeField]
-    private int m_height;
+    private int m_numEntries;
 
     [SerializeField]
     private bool[,] m_adjacencyMatrix;
 
-    public Graph(int width, int height)
+    public Graph(int numEntries)
     {
-        m_width = width;
-        m_height = height;
-        m_adjacencyMatrix = new bool[m_width, m_height];
+        m_numEntries = numEntries;
+
+        m_adjacencyMatrix = new bool[m_numEntries, m_numEntries];
+        for (int i = 0; i < m_numEntries; i++)
+        {
+            m_adjacencyMatrix[i, i] = true;
+        }
     }
 
     public bool IsConnected(int lhs, int rhs)
