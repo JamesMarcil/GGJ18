@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ExecuteInEditMode]
 [RequireComponent(typeof(TileFactory))]
 public class GameGrid : MonoBehaviour
 {
@@ -19,6 +20,22 @@ public class GameGrid : MonoBehaviour
         }
     }
 
+    public float NodeWidth
+    {
+        get
+        {
+            return m_nodeWidth;
+        }
+    }
+
+    public float NodeHeight
+    {
+        get
+        {
+            return m_nodeHeight;
+        }
+    }
+
     public int NumEntries
     {
         get
@@ -34,14 +51,16 @@ public class GameGrid : MonoBehaviour
     private int m_height;
 
     [SerializeField] 
-    private float m_cellWidth;
+    private float m_nodeWidth;
 
     [SerializeField] 
-    private float m_cellHeight;
+    private float m_nodeHeight;
+
+    [SerializeField]
+    [HideInInspector]
+    private GameObject[] m_grid;
 
     private TileFactory m_factory;
-
-    private GameObject[] m_grid;
 
     private void Awake()
     {
@@ -70,7 +89,9 @@ public class GameGrid : MonoBehaviour
         for (int i = 0; i < NumEntries; i++)
         {
             GameObject prefab = m_factory.GetPrefabForType(TileType.WALL);
-            Instantiate(prefab, transform);
+            GameObject newObj = Instantiate(prefab, transform);
+            GridPosition.Make(newObj, this, (i / Width), (i % Height));
         }
     }
+
 }
