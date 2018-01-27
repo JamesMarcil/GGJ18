@@ -249,7 +249,21 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         return true;
     }
 
-    private IEnumerable<int> Neighbors(int row, int column)
+    public IEnumerable<int> ConnectedNeighbors(int row, int column)
+    {
+        int lhsIndex; 
+        GetIndexFromRowAndColumn(row, column, out lhsIndex);
+
+        foreach (int rhsIndex in Adjacent(row, column))
+        {
+           if (m_graph.IsConnected(lhsIndex, rhsIndex))
+           {
+               yield return rhsIndex;
+           } 
+        }
+    }
+
+    public IEnumerable<int> Adjacent(int row, int column)
     {
         int index;
 
@@ -316,7 +330,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
             int column;
             GetRowAndColumnFromIndex(lhs, out row, out column);
 
-            foreach (int rhs in Neighbors(row, column))
+            foreach (int rhs in Adjacent(row, column))
             {
                 if (CanConnect(lhs, rhs))
                 {
