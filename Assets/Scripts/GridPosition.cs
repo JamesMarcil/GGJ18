@@ -34,7 +34,7 @@ public class GridPosition : MonoBehaviour
         transform.hideFlags = HideFlags.NotEditable;
     }
 
-    private void Update()
+    private void Start()
     {
         Vector2 position = Vector2.zero;
         position.x = m_row * m_grid.NodeWidth;
