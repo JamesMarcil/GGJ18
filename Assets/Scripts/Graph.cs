@@ -28,6 +28,23 @@ public class Graph
         return (m_adjacencyMatrix[lhs, rhs] || m_adjacencyMatrix[rhs, lhs]);
     }
 
+    public void Clear()
+    {
+        for (int i = 0; i < m_numEntries; i++)
+        {
+            for (int j = i; j < m_numEntries; j++)
+            {
+                if (i == j)
+                {
+                    continue;
+                }
+
+                m_adjacencyMatrix[i, j] = false;
+                m_adjacencyMatrix[j, i] = false;
+            }
+        }
+    }
+
     public void Connect(int lhs, int rhs)
     {
         m_adjacencyMatrix[lhs, rhs] = true;

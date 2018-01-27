@@ -47,10 +47,12 @@ public class GameGridEditor : Editor
             m_nodeHeight.floatValue = 0;
         }
 
+        EditorGUI.BeginDisabledGroup(m_grid.HasGrid());
         EditorGUILayout.PropertyField(m_width);
         EditorGUILayout.PropertyField(m_height);
         EditorGUILayout.PropertyField(m_nodeWidth);
         EditorGUILayout.PropertyField(m_nodeHeight);
+        EditorGUI.EndDisabledGroup();
 
         if (GUILayout.Button("Clear Grid"))
         {
@@ -61,6 +63,13 @@ public class GameGridEditor : Editor
         {
             m_grid.GenerateGrid();
         }
+
+        EditorGUI.BeginDisabledGroup(!m_grid.HasGrid());
+        if (GUILayout.Button("Generate Connectivity"))
+        {
+            m_grid.GenerateConnectivity();
+        }
+        EditorGUI.EndDisabledGroup();
 
         serializedObject.ApplyModifiedProperties();
     }

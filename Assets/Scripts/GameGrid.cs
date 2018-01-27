@@ -68,6 +68,14 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     private Dictionary<int, GameObject> m_gameObjects = new Dictionary<int, GameObject>();
 
+    [SerializeField]
+    [HideInInspector]
+    private GameObject[] m_grid;
+
+    [SerializeField]
+    [HideInInspector]
+    private Graph m_graph;
+
     private TileFactory m_factory;
 
     private void Awake()
@@ -100,6 +108,11 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         }
     }
 
+    public bool HasGrid()
+    {
+        return (m_keys.Count > 0) && (m_values.Count > 0) && (m_gameObjects.Count > 0);
+    }
+
     public void ClearGrid()
     {
         while (transform.childCount > 0)
@@ -124,18 +137,109 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     public void GenerateGrid()
     {
+        m_graph = new Graph(NumEntries);
+
+        m_grid = new GameObject[NumEntries];
+
         for (int i = 0; i < NumEntries; i++)
         {
             GameObject prefab = m_factory.GetPrefabForType(TileType.WALL);
 
             GameObject newObj = Instantiate(prefab, transform);
 
-            int instanceId = newObj.GetInstanceID();
+            m_grid[i] = newObj;
 
+            int instanceId = newObj.GetInstanceID();
             m_gameObjects.Add(instanceId, newObj);
 
-            GridPosition.Make(newObj, this, (i / Width), (i % Height));
+            int row;
+            int column;
+            GetRowAndColumnFromIndex(i, out row, out column);
+
+            GridPosition.Make(newObj, this, row, column);
         }
     }
 
+    private bool GetIndexFromRowAndColumn(int row, int column, out int index)
+    {
+        if ((row < 0) || (column < 0) || (row >= Width) || (column >= Height))
+        {
+            index = default(int);
+            return false;
+        }
+
+        index = (row * Width) + column;
+        
+        return true;
+    }
+
+    private bool GetRowAndColumnFromIndex(int index, out int row, out int column)
+    {
+        if ((index < 0) || (index >= NumEntries))
+        {
+            row = default(int);
+            column = default(int);
+            return false;
+        }
+
+        row = (index / Width);
+        column = (index % Height);
+        return true;
+    }
+
+    private IEnumerable<int> Neighbors(int row, int column)
+    {
+        int index;
+
+        if (GetIndexFromRowAndColumn(row - 1, column, out index))
+        {
+            yield return index;
+        }
+
+        if (GetIndexFromRowAndColumn(row + 1, column, out index))
+        {
+            yield return index;
+        }
+
+        if (GetIndexFromRowAndColumn(row, column - 1, out index))
+        {
+            yield return index;
+        }
+
+        if (GetIndexFromRowAndColumn(row, column + 1, out index))
+        {
+            yield return index;
+        }
+    }
+
+    private bool CanConnect(int lhs, int rhs)
+    {
+        GameObject lhsObj = m_grid[lhs];
+        GameObject rhsObj = m_grid[rhs];
+
+        var lhsInfo = lhsObj.GetComponent<TileInfo>();
+        var rhsInfo = rhsObj.GetComponent<TileInfo>();
+
+        return ((lhsInfo.Type != TileType.WALL) && (rhsInfo.Type != TileType.WALL));
+    }
+
+    public void GenerateConnectivity()
+    {
+        m_graph.Clear();
+
+        for (int lhs = 0; lhs < NumEntries; lhs++)
+        {
+            int row;
+            int column;
+            GetRowAndColumnFromIndex(lhs, out row, out column);
+
+            foreach (int rhs in Neighbors(row, column))
+            {
+                if (CanConnect(lhs, rhs))
+                {
+                    m_graph.Connect(lhs, rhs);
+                }
+            }
+        }
+    }
 }
