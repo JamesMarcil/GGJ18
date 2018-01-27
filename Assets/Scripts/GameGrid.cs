@@ -79,6 +79,14 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
     [SerializeField]
     private GameObject m_connectionPrefab;
 
+    [SerializeField]
+    [HideInInspector]
+    private bool m_hasGeneratedGrid;
+
+    [SerializeField]
+    [HideInInspector]
+    private bool m_hasGeneratedConnectivity;
+
     private TileFactory m_factory;
 
 
@@ -114,11 +122,18 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     public bool HasGrid()
     {
-        return (m_keys.Count > 0) && (m_values.Count > 0) && (m_gameObjects.Count > 0);
+        return m_hasGeneratedGrid;
+    }
+
+    public bool HasConnectivity()
+    {
+        return m_hasGeneratedConnectivity;
     }
 
     public void ClearGrid()
     {
+        ClearConnectivity();
+
         while (transform.childCount > 0)
         {
             Transform child = transform.GetChild(0);
@@ -137,6 +152,8 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         m_keys.Clear();
         m_values.Clear();
         m_gameObjects.Clear();
+
+        m_hasGeneratedGrid = false;
     }
 
     public void GenerateGrid()
@@ -162,6 +179,8 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
             GridPosition.Make(newObj, this, row, column);
         }
+
+        m_hasGeneratedGrid = true;
     }
 
     public bool GetIndexFromRowAndColumn(int row, int column, out int index)
@@ -272,6 +291,8 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
                 Destroy(obj);
             }
         }
+
+        m_hasGeneratedConnectivity = false;
     }
 
     public void GenerateConnectivity()
@@ -296,5 +317,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
                 }
             }
         }
+
+        m_hasGeneratedConnectivity = true;
     }
 }

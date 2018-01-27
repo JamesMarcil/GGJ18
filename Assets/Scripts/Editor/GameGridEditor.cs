@@ -58,25 +58,31 @@ public class GameGridEditor : Editor
 
         EditorGUILayout.PropertyField(m_connectionPrefab);
 
-        if (GUILayout.Button("Clear Grid"))
-        {
-            m_grid.ClearGrid();
-        }
-
+        EditorGUI.BeginDisabledGroup(m_grid.HasGrid());
         if (GUILayout.Button("Generate New Grid"))
         {
             m_grid.GenerateGrid();
         }
+        EditorGUI.EndDisabledGroup();
 
         EditorGUI.BeginDisabledGroup(!m_grid.HasGrid());
-        if (GUILayout.Button("Clear Connectivity"))
-        {
-            m_grid.ClearConnectivity();
-        }
-
         if (GUILayout.Button("Generate Connectivity"))
         {
             m_grid.GenerateConnectivity();
+        }
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.BeginDisabledGroup(!m_grid.HasGrid());
+        if (GUILayout.Button("Clear Grid"))
+        {
+            m_grid.ClearGrid();
+        }
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.BeginDisabledGroup(!m_grid.HasConnectivity());
+        if (GUILayout.Button("Clear Connectivity"))
+        {
+            m_grid.ClearConnectivity();
         }
         EditorGUI.EndDisabledGroup();
 
