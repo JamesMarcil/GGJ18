@@ -11,5 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1228d08425e322428676f80c781782a, type: 3}
   m_Name: MOVE_WEST
   m_EditorClassIdentifier: 
+  m_type: 3
   m_duration: 2
   m_direction: 3
