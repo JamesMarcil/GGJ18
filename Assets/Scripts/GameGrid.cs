@@ -160,53 +160,32 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     public void GenerateGrid()
     {
-        m_graph = new Graph(NumEntries);
+        m_hasGeneratedGrid = true;
 
+        m_graph = new Graph(NumEntries);
         m_grid = new GameObject[NumEntries];
 
         for (int i = 0; i < NumEntries; i++)
         {
-            GameObject prefab = m_factory.GetPrefabForType(TileType.SPACE);
-
-            GameObject newObj = Instantiate(prefab, transform);
-
-            m_grid[i] = newObj;
-
-            int instanceId = newObj.GetInstanceID();
-            m_gameObjects.Add(instanceId, newObj);
-
-            int row;
-            int column;
-            GetRowAndColumnFromIndex(i, out row, out column);
-
-            var buffer = new StringBuilder();
-            buffer.Append(row);
-            buffer.Append("_");
-            buffer.Append(column);
-            newObj.name = buffer.ToString();
-
-            ReplaceTile.Make(newObj, this);
-            GridPosition.Make(newObj, this, row, column);
+            MakeTile(TileType.SPACE, i);
         }
-
-        m_hasGeneratedGrid = true;
 
         GenerateConnectivity();
     }
 
     public bool IsValidIndex(int index)
     {
-        return (index > 0) || (index < NumEntries);
+        return (index >= 0) && (index < NumEntries);
     }
 
     public bool IsValidRow(int row)
     {
-        return (row > 0) || (row < Width);
+        return (row >= 0) && (row < Width);
     }
 
     public bool IsValidColumn(int column)
     {
-        return (column > 0) || (column < Height);
+        return (column >= 0) && (column < Height);
     }
 
     public bool IsValidRowAndColumn(int row, int column)
@@ -398,7 +377,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     public void GenerateConnectivity()
     {
-        ClearConnectivity();
+        m_hasGeneratedConnectivity = true;
 
         for (int lhs = 0; lhs < NumEntries; lhs++)
         {
@@ -418,8 +397,33 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
                 }
             }
         }
+    }
 
-        m_hasGeneratedConnectivity = true;
+    private GameObject MakeTile(TileType type, int index)
+    {
+        GameObject prefab = m_factory.GetPrefabForType(type);
+        GameObject newObj = Instantiate(prefab, transform);
+
+        int newInstanceId = newObj.GetInstanceID();
+        m_gameObjects.Add(newInstanceId, newObj);
+        
+        m_grid[index] = newObj;
+
+        int row;
+        int column;
+        GetRowAndColumnFromIndex(index, out row, out column);
+
+        var buffer = new StringBuilder();
+        buffer.Append(row);
+        buffer.Append("_");
+        buffer.Append(column);
+        newObj.name = buffer.ToString();
+
+        Node.Make(newObj, this, index);
+        ReplaceTile.Make(newObj, this);
+        GridPosition.Make(newObj, this, row, column);
+
+        return newObj;
     }
 
     public void ReplaceWithTileOfType(GameObject obj, TileType type)
@@ -427,27 +431,13 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         int instanceId = obj.GetInstanceID();
         if (m_gameObjects.ContainsKey(instanceId))
         {
-            GameObject prefab = m_factory.GetPrefabForType(type);
-            GameObject newObj = Instantiate(prefab, transform);
-
-            int newInstanceId = newObj.GetInstanceID();
             m_gameObjects.Remove(instanceId);
-            m_gameObjects.Add(newInstanceId, newObj);
 
             int index;
             var gridPosition = obj.GetComponent<GridPosition>();
             GetIndexFromRowAndColumn(gridPosition.Row, gridPosition.Column, out index);
 
-            var buffer = new StringBuilder();
-            buffer.Append(gridPosition.Row);
-            buffer.Append("_");
-            buffer.Append(gridPosition.Column);
-            newObj.name = buffer.ToString();
-
-            ReplaceTile.Make(newObj, this);
-            GridPosition.Make(newObj, this, gridPosition.Row, gridPosition.Column);
-
-            m_grid[index] = newObj;
+            GameObject newObj = MakeTile(type, index);
 
             if (Application.isEditor)
             {
@@ -464,6 +454,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
                 Destroy(obj);
             }
 
+            ClearConnectivity();
             GenerateConnectivity();
         }
     }
