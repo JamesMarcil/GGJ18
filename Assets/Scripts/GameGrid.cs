@@ -74,7 +74,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     [SerializeField]
     [HideInInspector]
-    private Graph m_graph;
+    private Graph m_graph = new Graph(0);
 
     [SerializeField]
     private GameObject m_connectionPrefab;
