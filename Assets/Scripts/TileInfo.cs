@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class TileInfo : MonoBehaviour
 {
     public TileType Type
@@ -12,4 +13,9 @@ public class TileInfo : MonoBehaviour
 
     [SerializeField]
     private TileType m_type;
+
+    private void Awake()
+    {
+        hideFlags = HideFlags.NotEditable;
+    }
 }
