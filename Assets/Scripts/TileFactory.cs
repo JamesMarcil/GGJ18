@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -22,10 +23,21 @@ public class TileFactory : MonoBehaviour, ISerializationCallbackReceiver
         m_keys.Clear();
         m_values.Clear();
 
-        foreach (KeyValuePair<TileType, GameObject> pair in m_tiles)
+        TileType[] types = Enum.GetValues(typeof(TileType)) as TileType[];
+        for (int i = 0; i < types.Length; i++)
         {
-            m_keys.Add(pair.Key);
-            m_values.Add(pair.Value);
+            TileType type = types[i];
+
+            m_keys.Add(type);
+
+            if (m_tiles.ContainsKey(type))
+            {
+                m_values.Add(m_tiles[type]);
+            }
+            else
+            {
+                m_values.Add(null);
+            }
         }
     }
 
