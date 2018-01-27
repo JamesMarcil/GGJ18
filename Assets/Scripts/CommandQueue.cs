@@ -1,9 +1,18 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using UnityEngine;
 
 public class CommandQueue : MonoBehaviour
 {
+    public ReadOnlyCollection<BaseCommand> Queue
+    {
+        get
+        {
+            return m_commandQueue.AsReadOnly();
+        }
+    }
+
     [SerializeField]
     private int m_capacity;
 
