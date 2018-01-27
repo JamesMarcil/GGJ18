@@ -1,6 +1,8 @@
+using System.Text;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEditor;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(TileFactory))]
@@ -177,6 +179,13 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
             int column;
             GetRowAndColumnFromIndex(i, out row, out column);
 
+            var buffer = new StringBuilder();
+            buffer.Append(row);
+            buffer.Append("_");
+            buffer.Append(column);
+            newObj.name = buffer.ToString();
+
+            ReplaceTile.Make(newObj, this);
             GridPosition.Make(newObj, this, row, column);
         }
 
@@ -194,7 +203,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         }
 
         index = (row * Width) + column;
-        
+
         return true;
     }
 
@@ -236,7 +245,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         }
 
         center = new Vector3((row * NodeWidth) + (NodeWidth * 0.5f), (column * NodeHeight) + (NodeHeight * 0.5f), 0);
-        
+
         return true;
     }
 
@@ -321,5 +330,51 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         }
 
         m_hasGeneratedConnectivity = true;
+    }
+
+    public void ReplaceWithTileOfType(GameObject obj, TileType type)
+    {
+        int instanceId = obj.GetInstanceID();
+        if (m_gameObjects.ContainsKey(instanceId))
+        {
+            GameObject prefab = m_factory.GetPrefabForType(type);
+            GameObject newObj = Instantiate(prefab, transform);
+
+            int newInstanceId = newObj.GetInstanceID();
+            m_gameObjects.Remove(instanceId);
+            m_gameObjects.Add(newInstanceId, newObj);
+
+            int index;
+            var gridPosition = obj.GetComponent<GridPosition>();
+            GetIndexFromRowAndColumn(gridPosition.Row, gridPosition.Column, out index);
+
+            var buffer = new StringBuilder();
+            buffer.Append(gridPosition.Row);
+            buffer.Append("_");
+            buffer.Append(gridPosition.Column);
+            newObj.name = buffer.ToString();
+
+            ReplaceTile.Make(newObj, this);
+            GridPosition.Make(newObj, this, gridPosition.Row, gridPosition.Column);
+
+            m_grid[index] = newObj;
+
+            if (Application.isEditor)
+            {
+                int siblingIndex = obj.transform.GetSiblingIndex();
+                newObj.transform.SetSiblingIndex(siblingIndex);
+
+                Selection.activeGameObject = newObj;
+                EditorApplication.ExecuteMenuItem("Window/Hierarchy");
+
+                DestroyImmediate(obj);
+            }
+            else
+            {
+                Destroy(obj);
+            }
+
+            GenerateConnectivity();
+        }
     }
 }
