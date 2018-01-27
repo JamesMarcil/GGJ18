@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
 [RequireComponent(typeof(TileFactory))]
 public class GameGrid : MonoBehaviour
 {
