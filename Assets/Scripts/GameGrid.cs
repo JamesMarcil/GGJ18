@@ -343,6 +343,16 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         }
     }
 
+    public bool IsConnected(int lhs, int rhs)
+    {
+        if (IsValidIndex(lhs) && IsValidIndex(rhs))
+        {
+            return m_graph.IsConnected(lhs, rhs);
+        }
+
+        return false;
+    }
+
     private bool CanConnect(int lhs, int rhs)
     {
         GameObject lhsObj = m_grid[lhs];

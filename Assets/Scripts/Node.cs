@@ -12,38 +12,68 @@ public class Node : MonoBehaviour
     [HideInInspector]
     private int m_index;
 
-    public bool GetNodeInDirection(Directions direction, out GameObject obj)
+    public bool GetAdjacentInDirection(Directions direction, out GameObject obj)
     {
+        obj = default(GameObject);
+
         int row;
         int column;
         if (m_grid.GetRowAndColumnFromIndex(m_index, out row, out column))
         {
+            int targetRow;
+            int targetColumn;
+            int targetIndex;
+
             switch (direction)
             {
                 case Directions.NORTH:
                     {
-                        return m_grid.GetGameObjectFromRowAndColumn(row + 1, column, out obj);
+                        targetRow = (row + 1);
+                        targetColumn = column;
+                        break;
                     }
                 case Directions.EAST:
                     {
-                        return m_grid.GetGameObjectFromRowAndColumn(row, column + 1, out obj);
+                        targetRow = row;
+                        targetColumn = (column + 1);
+                        break;
                     }
                 case Directions.SOUTH:
                     {
-                        return m_grid.GetGameObjectFromRowAndColumn(row - 1, column, out obj);
+                        targetRow = (row - 1);
+                        targetColumn = column;
+                        break;
                     }
                 case Directions.WEST:
                     {
-                        return m_grid.GetGameObjectFromRowAndColumn(row, column - 1, out obj);
+                        targetRow = row;
+                        targetColumn = (column - 1);
+                        break;
                     }
                 default:
                     {
-                        break; // No-op
+                        obj = default(GameObject);
+                        return false;
                     }
+            }
+
+            return m_grid.GetIndexFromRowAndColumn(targetRow, targetColumn, out targetIndex) && m_grid.GetGameObjectFromIndex(targetIndex, out obj);
+        }
+        
+        return false;
+    }
+
+    public bool GetConnectedInDirection(Directions direction, out GameObject obj)
+    {
+        if (GetAdjacentInDirection(direction, out obj))
+        {
+            var component = obj.GetComponent<Node>();
+            if (IsConnected(component))
+            {
+                return true;
             }
         }
 
-        obj = default(GameObject);
         return false;
     }
 
@@ -69,6 +99,11 @@ public class Node : MonoBehaviour
                 yield return obj;
             }
         }
+    }
+
+    public bool IsConnected(Node rhs)
+    {
+        return m_grid.IsConnected(m_index, rhs.m_index);
     }
 
     public static Node Make(GameObject owner, GameGrid grid, int index)
