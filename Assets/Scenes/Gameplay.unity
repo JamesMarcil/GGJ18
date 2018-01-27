@@ -531,6 +531,8 @@ GameObject:
   - component: {fileID: 324916382}
   - component: {fileID: 324916381}
   - component: {fileID: 324916384}
+  - component: {fileID: 324916386}
+  - component: {fileID: 324916385}
   m_Layer: 5
   m_Name: Start Button
   m_TagString: Untagged
@@ -653,6 +655,36 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &324916385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 324916379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_DISABLE_START_BUTTON
+  m_valueToSet: 0
+  m_initialState: 0
+  m_target: {fileID: 324916381}
+--- !u!114 &324916386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 324916379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_ENABLE_START_BUTTON
+  m_valueToSet: 1
+  m_initialState: 0
+  m_target: {fileID: 324916381}
 --- !u!1 &347784343
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,6 +2306,8 @@ GameObject:
   - component: {fileID: 748802817}
   - component: {fileID: 748802816}
   - component: {fileID: 748802819}
+  - component: {fileID: 748802821}
+  - component: {fileID: 748802820}
   m_Layer: 5
   m_Name: Move North Button
   m_TagString: Untagged
@@ -2396,6 +2430,36 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &748802820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 748802814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_DISABLE_COMMAND_BUTTONS
+  m_valueToSet: 0
+  m_initialState: 1
+  m_target: {fileID: 748802816}
+--- !u!114 &748802821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 748802814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_ENABLE_COMMAND_BUTTONS
+  m_valueToSet: 1
+  m_initialState: 1
+  m_target: {fileID: 748802816}
 --- !u!1 &823046328
 GameObject:
   m_ObjectHideFlags: 0
@@ -3874,8 +3938,10 @@ GameObject:
   - component: {fileID: 1447057318}
   - component: {fileID: 1447057317}
   - component: {fileID: 1447057316}
+  - component: {fileID: 1447057320}
+  - component: {fileID: 1447057321}
   m_Layer: 5
-  m_Name: Move South
+  m_Name: Move South Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3996,6 +4062,36 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1447057314}
+--- !u!114 &1447057320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1447057314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_ENABLE_COMMAND_BUTTONS
+  m_valueToSet: 1
+  m_initialState: 1
+  m_target: {fileID: 1447057317}
+--- !u!114 &1447057321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1447057314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_DISABLE_COMMAND_BUTTONS
+  m_valueToSet: 0
+  m_initialState: 1
+  m_target: {fileID: 1447057317}
 --- !u!1 &1460087298
 GameObject:
   m_ObjectHideFlags: 0
@@ -4008,8 +4104,10 @@ GameObject:
   - component: {fileID: 1460087302}
   - component: {fileID: 1460087301}
   - component: {fileID: 1460087300}
+  - component: {fileID: 1460087304}
+  - component: {fileID: 1460087305}
   m_Layer: 5
-  m_Name: Move West
+  m_Name: Move West Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4130,6 +4228,36 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1460087298}
+--- !u!114 &1460087304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460087298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_ENABLE_COMMAND_BUTTONS
+  m_valueToSet: 1
+  m_initialState: 1
+  m_target: {fileID: 1460087301}
+--- !u!114 &1460087305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460087298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_DISABLE_COMMAND_BUTTONS
+  m_valueToSet: 0
+  m_initialState: 1
+  m_target: {fileID: 1460087301}
 --- !u!1 &1463674538
 GameObject:
   m_ObjectHideFlags: 0
@@ -4226,8 +4354,10 @@ GameObject:
   - component: {fileID: 1467554970}
   - component: {fileID: 1467554969}
   - component: {fileID: 1467554968}
+  - component: {fileID: 1467554972}
+  - component: {fileID: 1467554973}
   m_Layer: 5
-  m_Name: Move East
+  m_Name: Move East Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4348,6 +4478,36 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1467554966}
+--- !u!114 &1467554972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1467554966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_ENABLE_COMMAND_BUTTONS
+  m_valueToSet: 1
+  m_initialState: 1
+  m_target: {fileID: 1467554969}
+--- !u!114 &1467554973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1467554966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_DISABLE_COMMAND_BUTTONS
+  m_valueToSet: 0
+  m_initialState: 1
+  m_target: {fileID: 1467554969}
 --- !u!1 &1484017670
 GameObject:
   m_ObjectHideFlags: 0
