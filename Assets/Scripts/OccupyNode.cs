@@ -22,6 +22,6 @@ public class OccupyNode : MonoBehaviour
 
     private void OnValidate()
     {
-        transform.position = m_current.GetCenter();
+        transform.localPosition = m_current.GetCenter();
     }
 }

@@ -15,6 +15,8 @@ public class MoveCommand : BaseCommand
 
     override public void OnStart(GameObject target)
     {
+        base.OnStart(target);
+
         m_elapsedTime = 0;
         m_occupyNode = target.GetComponent<OccupyNode>();
     }
