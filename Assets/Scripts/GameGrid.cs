@@ -194,31 +194,54 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         GenerateConnectivity();
     }
 
+    public bool IsValidIndex(int index)
+    {
+        return (index > 0) || (index < NumEntries);
+    }
+
+    public bool IsValidRow(int row)
+    {
+        return (row > 0) || (row < Width);
+    }
+
+    public bool IsValidColumn(int column)
+    {
+        return (column > 0) || (column < Height);
+    }
+
+    public bool IsValidRowAndColumn(int row, int column)
+    {
+        return IsValidRow(row) && IsValidColumn(column);
+    }
+
     public bool GetIndexFromRowAndColumn(int row, int column, out int index)
     {
-        if ((row < 0) || (column < 0) || (row >= Width) || (column >= Height))
+        if (IsValidRowAndColumn(row, column))
+        {
+            index = (row * Width) + column;
+            return true;
+        }
+        else
         {
             index = default(int);
             return false;
         }
-
-        index = (row * Width) + column;
-
-        return true;
     }
 
     public bool GetRowAndColumnFromIndex(int index, out int row, out int column)
     {
-        if ((index < 0) || (index >= NumEntries))
+        if (IsValidIndex(index))
+        {
+            row = (index / Width);
+            column = (index % Height);
+            return true;
+        }
+        else
         {
             row = default(int);
             column = default(int);
             return false;
         }
-
-        row = (index / Width);
-        column = (index % Height);
-        return true;
     }
 
     public bool GetCenterFromIndex(int index, out Vector3 center)
@@ -238,15 +261,44 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     public bool GetCenterFromRowAndColumn(int row, int column, out Vector3 center)
     {
-        if ((row < 0) || (column < 0) || (row >= Width) || (column >= Height))
+        if (IsValidRowAndColumn(row, column))
+        {
+            center = new Vector3((row * NodeWidth) + (NodeWidth * 0.5f), (column * NodeHeight) + (NodeHeight * 0.5f), 0);
+            return true;
+        }
+        else
         {
             center = default(Vector3);
             return false;
         }
+    }
 
-        center = new Vector3((row * NodeWidth) + (NodeWidth * 0.5f), (column * NodeHeight) + (NodeHeight * 0.5f), 0);
+    public bool GetGameObjectFromIndex(int index, out GameObject obj)
+    {
+        if (IsValidIndex(index))
+        {
+            obj = m_grid[index];
+            return true;
+        }
+        else
+        {
+            obj = default(GameObject);
+            return false;
+        }
+    }
 
-        return true;
+    public bool GetGameObjectFromRowAndColumn(int row, int column, out GameObject obj)
+    {
+        int index;
+        if (GetIndexFromRowAndColumn(row, column, out index))
+        {
+            return GetGameObjectFromIndex(index, out obj);
+        }
+        else
+        {
+            obj = default(GameObject);
+            return false;
+        }
     }
 
     public IEnumerable<int> ConnectedNeighborsFromIndex(int lhsIndex)
@@ -263,15 +315,15 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     public IEnumerable<int> ConnectedNeighborsFromRowAndColumn(int row, int column)
     {
-        int lhsIndex; 
+        int lhsIndex;
         GetIndexFromRowAndColumn(row, column, out lhsIndex);
 
         foreach (int rhsIndex in AdjacentFromRowAndColumn(row, column))
         {
-           if (m_graph.IsConnected(lhsIndex, rhsIndex))
-           {
-               yield return rhsIndex;
-           } 
+            if (m_graph.IsConnected(lhsIndex, rhsIndex))
+            {
+                yield return rhsIndex;
+            }
         }
     }
 
