@@ -13,9 +13,9 @@ public class TileFactory : MonoBehaviour, ISerializationCallbackReceiver
 
     private Dictionary<TileType, GameObject> m_tiles = new Dictionary<TileType, GameObject>();
 
-    public bool TryGetPrefabForType(TileType type, out GameObject prefab)
+    public GameObject GetPrefabForType(TileType type)
     {
-        return m_tiles.TryGetValue(type, out prefab);
+        return m_tiles[type];
     }
 
     public void OnBeforeSerialize()
