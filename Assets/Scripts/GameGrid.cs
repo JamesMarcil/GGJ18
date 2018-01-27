@@ -76,7 +76,11 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
     [HideInInspector]
     private Graph m_graph;
 
+    [SerializeField]
+    private GameObject m_connectionPrefab;
+
     private TileFactory m_factory;
+
 
     private void Awake()
     {
@@ -143,7 +147,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
         for (int i = 0; i < NumEntries; i++)
         {
-            GameObject prefab = m_factory.GetPrefabForType(TileType.WALL);
+            GameObject prefab = m_factory.GetPrefabForType(TileType.SPACE);
 
             GameObject newObj = Instantiate(prefab, transform);
 
@@ -160,7 +164,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         }
     }
 
-    private bool GetIndexFromRowAndColumn(int row, int column, out int index)
+    public bool GetIndexFromRowAndColumn(int row, int column, out int index)
     {
         if ((row < 0) || (column < 0) || (row >= Width) || (column >= Height))
         {
@@ -173,7 +177,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         return true;
     }
 
-    private bool GetRowAndColumnFromIndex(int index, out int row, out int column)
+    public bool GetRowAndColumnFromIndex(int index, out int row, out int column)
     {
         if ((index < 0) || (index >= NumEntries))
         {
@@ -184,6 +188,34 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
         row = (index / Width);
         column = (index % Height);
+        return true;
+    }
+
+    public bool GetCenterFromIndex(int index, out Vector3 center)
+    {
+        int row;
+        int column;
+        if (GetRowAndColumnFromIndex(index, out row, out column))
+        {
+            return GetCenterFromRowAndColumn(row, column, out center);
+        }
+        else
+        {
+            center = default(Vector3);
+            return false;
+        }
+    }
+
+    public bool GetCenterFromRowAndColumn(int row, int column, out Vector3 center)
+    {
+        if ((row < 0) || (column < 0) || (row >= Width) || (column >= Height))
+        {
+            center = default(Vector3);
+            return false;
+        }
+
+        center = new Vector3((row * NodeWidth) + (NodeWidth * 0.5f), (column * NodeHeight) + (NodeHeight * 0.5f), 0);
+        
         return true;
     }
 
@@ -237,6 +269,10 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
             {
                 if (CanConnect(lhs, rhs))
                 {
+                    GameObject obj = Instantiate(m_connectionPrefab, transform);
+
+                    ConnectionVisualization.Make(obj, this, lhs, rhs);
+
                     m_graph.Connect(lhs, rhs);
                 }
             }

@@ -10,6 +10,7 @@ public class GameGridEditor : Editor
     private SerializedProperty m_height;
     private SerializedProperty m_nodeWidth;
     private SerializedProperty m_nodeHeight;
+    private SerializedProperty m_connectionPrefab;
 
     private GameGrid m_grid;
 
@@ -19,6 +20,7 @@ public class GameGridEditor : Editor
         m_height = serializedObject.FindProperty("m_height");
         m_nodeWidth = serializedObject.FindProperty("m_nodeWidth");
         m_nodeHeight = serializedObject.FindProperty("m_nodeHeight");
+        m_connectionPrefab = serializedObject.FindProperty("m_connectionPrefab");
 
         m_grid = target as GameGrid;
     }
@@ -53,6 +55,8 @@ public class GameGridEditor : Editor
         EditorGUILayout.PropertyField(m_nodeWidth);
         EditorGUILayout.PropertyField(m_nodeHeight);
         EditorGUI.EndDisabledGroup();
+
+        EditorGUILayout.PropertyField(m_connectionPrefab);
 
         if (GUILayout.Button("Clear Grid"))
         {
