@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class OccupyNode : MonoBehaviour
 {
     public Node Current
@@ -13,7 +12,7 @@ public class OccupyNode : MonoBehaviour
         {
             m_current = value;
 
-            OnValidate();
+            transform.localPosition = m_current.GetCenter();
         }
     }
 
@@ -22,6 +21,9 @@ public class OccupyNode : MonoBehaviour
 
     private void OnValidate()
     {
-        transform.localPosition = m_current.GetCenter();
+        if (m_current)
+        {
+            transform.localPosition = m_current.GetCenter();
+        }
     }
 }
