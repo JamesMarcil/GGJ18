@@ -3215,26 +3215,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!1 &1058189967 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1051408900457054, guid: 28982929467a7974685ec17aa08446fe,
-    type: 2}
-  m_PrefabInternal: {fileID: 1176403581}
---- !u!114 &1058189968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1058189967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42a21bb9c7c2c0543b37b055c887277c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_messageToListenFor: GameEvents_COMMAND_QUEUE_STOP_PROCESSING
-  m_valueToSet: 0
-  m_initialState: 0
-  m_target: {fileID: 1176403582}
 --- !u!1 &1061931421
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,12 +3419,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28982929467a7974685ec17aa08446fe, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1176403582 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114178882843722068, guid: 28982929467a7974685ec17aa08446fe,
-    type: 2}
-  m_PrefabInternal: {fileID: 1176403581}
-  m_Script: {fileID: 11500000, guid: 84ab2346c5a77c74989e57c3623ad121, type: 3}
 --- !u!1 &1186601663
 GameObject:
   m_ObjectHideFlags: 0

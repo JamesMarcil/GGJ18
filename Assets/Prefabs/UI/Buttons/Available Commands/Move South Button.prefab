@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114433086437534900}
   - component: {fileID: 114381117109878644}
   - component: {fileID: 114977332881098886}
+  - component: {fileID: 114467036412589822}
   - component: {fileID: 114624755372672028}
   m_Layer: 5
   m_Name: Move South Button
@@ -200,6 +201,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114467036412589822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1832013223384356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_COMMAND_QUEUE_BEGIN_PROCESSING
+  m_valueToSet: 0
+  m_initialState: 1
+  m_target: {fileID: 114397206853571108}
 --- !u!114 &114624755372672028
 MonoBehaviour:
   m_ObjectHideFlags: 1

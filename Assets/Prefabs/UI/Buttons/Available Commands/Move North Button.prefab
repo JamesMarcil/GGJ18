@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114716498753023050}
   - component: {fileID: 114389557296935194}
   - component: {fileID: 114509474780826816}
+  - component: {fileID: 114279107657258850}
   - component: {fileID: 114865442431754248}
   m_Layer: 5
   m_Name: Move North Button
@@ -83,6 +84,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Move North
+--- !u!114 &114279107657258850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1882241550659280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251f971ae3d39604c9afbedb31d9ca59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_COMMAND_QUEUE_BEGIN_PROCESSING
+  m_valueToSet: 0
+  m_initialState: 1
+  m_target: {fileID: 114668277662534622}
 --- !u!114 &114389557296935194
 MonoBehaviour:
   m_ObjectHideFlags: 1
