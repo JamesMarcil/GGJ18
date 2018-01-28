@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CommandProcessor : MonoBehaviour
 {
-    private BaseCommand CurrentCommand
+    private BaseCommandAsset CurrentCommand
     {
         get
         {
@@ -25,6 +25,24 @@ public class CommandProcessor : MonoBehaviour
                 var stopMsg = new Message(GameEvents.COMMAND_QUEUE_STOP_PROCESSING);
                 MessageDispatcher.Instance.DispatchMessage(stopMsg);
             }
+            else
+            {
+                var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_PROCESSING_COMMAND, CurrentIndex);
+                MessageDispatcher.Instance.DispatchMessage(msg);
+
+                m_numCompleteCommands = 0;
+
+                for (int i = 0; i < m_players.Length; i++)
+                {
+                    GameObject obj = m_players[i];
+
+                    BaseCommand command = CurrentCommand.Make(obj);
+
+                    command.OnStatusChanged.AddListener(OnStatusChanged);
+
+                    m_commands[i] = command;
+                }
+            }
         }
     }
 
@@ -33,60 +51,65 @@ public class CommandProcessor : MonoBehaviour
     [SerializeField]
     private CommandQueue m_commandQueue;
 
-    private void OnEnable()
+    private GameObject[] m_players;
+    private BaseCommand[] m_commands;
+    private int m_numCompleteCommands;
+
+    private void Awake()
     {
-        m_currentIndex = 0;
+        MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_QUEUE_BEGIN_PROCESSING, OnBeginProcessing);
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        if (CurrentCommand.IsStarted)
-        {
-            CurrentCommand.OnStop(gameObject);
-        }
+        m_players = GameObject.FindGameObjectsWithTag("Player");
+        m_commands = new BaseCommand[m_players.Length];
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (!CurrentCommand.IsStarted)
+        MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_QUEUE_BEGIN_PROCESSING, OnBeginProcessing);
+    }
+
+    private void OnBeginProcessing(Message message)
+    {
+        CurrentIndex = 0;
+    }
+
+    private void OnStatusChanged(BaseCommand command)
+    {
+        m_numCompleteCommands++;
+
+        command.enabled = false;
+        command.OnStatusChanged.RemoveListener(OnStatusChanged);
+
+        if (m_numCompleteCommands >= m_commands.Length)
         {
-            var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_PROCESSING_COMMAND, CurrentIndex);
-            MessageDispatcher.Instance.DispatchMessage(msg);
-
-            CurrentCommand.OnStart(gameObject);
-        }
-
-        CommandStatus status = CurrentCommand.OnUpdated(gameObject);
-
-        switch (status)
-        {
-            case CommandStatus.COMPLETE:
+            bool allComplete = true;
+            for (int i = 0; i < m_commands.Length; i++)
+            {
+                BaseCommand cmd = m_commands[i];
+                if (cmd.Status == CommandStatus.FAILURE)
                 {
-                    CurrentCommand.OnStop(gameObject);
-
-                    var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_SUCCESSFULLY_PROCESSED_COMMAND, CurrentIndex);
-                    MessageDispatcher.Instance.DispatchMessage(msg);
-
-                    CurrentIndex += 1;
-
-                    break;
+                    allComplete = false;
                 }
-            case CommandStatus.FAILURE:
-                {
-                    CurrentCommand.OnStop(gameObject);
+            }
 
-                    var failedMsg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_FAILED_TO_PROCESS_COMMAND, CurrentIndex);
-                    MessageDispatcher.Instance.DispatchMessage(failedMsg);
+            if (allComplete)
+            {
+                var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_SUCCESSFULLY_PROCESSED_COMMAND, CurrentIndex);
+                MessageDispatcher.Instance.DispatchMessage(msg);
 
-                    var stopMsg = new Message(GameEvents.COMMAND_QUEUE_STOP_PROCESSING);
-                    MessageDispatcher.Instance.DispatchMessage(stopMsg);
+                CurrentIndex += 1;
+            }
+            else
+            {
+                var failedMsg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_FAILED_TO_PROCESS_COMMAND, CurrentIndex);
+                MessageDispatcher.Instance.DispatchMessage(failedMsg);
 
-                    break;
-                }
-            default:
-                {
-                    break; // No-op
-                }
+                var stopMsg = new Message(GameEvents.COMMAND_QUEUE_STOP_PROCESSING);
+                MessageDispatcher.Instance.DispatchMessage(stopMsg);
+            }
         }
     }
 }

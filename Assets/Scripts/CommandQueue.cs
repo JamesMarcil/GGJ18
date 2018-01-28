@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CommandQueue : MonoBehaviour
 {
-    public ReadOnlyCollection<BaseCommand> Queue
+    public ReadOnlyCollection<BaseCommandAsset> Queue
     {
         get
         {
@@ -18,7 +18,7 @@ public class CommandQueue : MonoBehaviour
 
     [SerializeField]
     [HideInInspector]
-    private List<BaseCommand> m_commandQueue = new List<BaseCommand>();
+    private List<BaseCommandAsset> m_commandQueue = new List<BaseCommandAsset>();
 
     private void Awake()
     {

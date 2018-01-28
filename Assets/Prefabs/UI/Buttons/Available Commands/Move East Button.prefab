@@ -123,7 +123,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 3cf7ea97ff4270044902ca47212cebda,
             type: 2}
-          m_ObjectArgumentAssemblyTypeName: BaseCommand, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: BaseCommandAsset, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

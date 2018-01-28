@@ -1,8 +1,8 @@
 public class CommandMessage : Message
 {
-    public BaseCommand Command { get; private set; }
+    public BaseCommandAsset Command { get; private set; }
 
-    public CommandMessage(string type, BaseCommand command)
+    public CommandMessage(string type, BaseCommandAsset command)
         : base(type)
     {
         Command = command;

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName="ENTITY_IN_GOAL", menuName="Make Entity In Goal Condition")]
 public class EntityInGoal : Condition
 {
     [SerializeField]

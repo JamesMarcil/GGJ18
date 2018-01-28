@@ -1,29 +1,34 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class BaseCommand : ScriptableObject
+public abstract class BaseCommand : MonoBehaviour
 {
-    public bool IsStarted { get; private set; }
-
-    public CommandTypes Type
+    public CommandStatus Status
     {
         get
         {
-            return m_type;
+            return m_status;
+        }
+        protected set
+        {
+            m_status = value;
+
+            m_onStatusChanged.Invoke(this);
         }
     }
 
-    [SerializeField]
-    protected CommandTypes m_type;
-
-    public virtual void OnStart(GameObject target)
+    public StatusEvent OnStatusChanged
     {
-        IsStarted = true;
+        get
+        {
+            return m_onStatusChanged;
+        }
     }
 
-    public virtual void OnStop(GameObject target)
-    {
-        IsStarted = false;
-    }
+    private CommandStatus m_status = CommandStatus.RUNNING;
+    private StatusEvent m_onStatusChanged = new StatusEvent();
 
-    public abstract CommandStatus OnUpdated(GameObject target);
+    public class StatusEvent : UnityEvent<BaseCommand>
+    {
+    }
 }

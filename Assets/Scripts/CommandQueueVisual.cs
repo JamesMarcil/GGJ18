@@ -38,7 +38,7 @@ public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
     {
         var msg = message as CommandMessage;
 
-        BaseCommand command = msg.Command;
+        BaseCommandAsset command = msg.Command;
 
         GameObject prefab = m_prefabs[command.Type];
         Instantiate(prefab, transform);
