@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a21bb9c7c2c0543b37b055c887277c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_messageToListenFor: GameEvents_START_PROCESSING_COMMANDS
+  m_messageToListenFor: GameEvents_COMMAND_QUEUE_BEGIN_PROCESSING
   m_valueToSet: 1
   m_initialState: 0
   m_target: {fileID: 114178882843722068}

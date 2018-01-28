@@ -8,8 +8,7 @@ public static class GameEvents
     public const string COMMAND_QUEUE_EMPTY = "GameEvents_COMMAND_QUEUE_EMPTY";
     public const string COMMAND_QUEUE_NO_LONGER_AT_CAPACITY = "GameEvents_COMMAND_QUEUE_NO_LONGER_AT_CAPACITY";
     public const string COMMAND_QUEUE_AT_CAPACITY = "GameEvents_COMMAND_QUEUE_AT_CAPACITY";
-
-    public const string START_PROCESSING_COMMANDS = "GameEvents_START_PROCESSING_COMMANDS";
+    public const string COMMAND_QUEUE_BEGIN_PROCESSING = "GameEvents_COMMAND_QUEUE_BEGIN_PROCESSING";
 
     public const string GAME_SUCCESS = "GameEvents_GAME_SUCCESS";
     public const string GAME_FAILURE = "GameEvents_GAME_FAILURE";
