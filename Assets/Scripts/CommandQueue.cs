@@ -32,10 +32,25 @@ public class CommandQueue : MonoBehaviour
 
     private void OnEnqueueCommand(Message message)
     {
+        var msg = message as CommandMessage;
+
         if (m_commandQueue.Count < m_capacity)
         {
-            var msg = message as EnqueueCommandMessage;
             m_commandQueue.Add(msg.Command);
+
+            var successMsg = new CommandMessage(GameEvents.COMMAND_SUCCESSFULLY_ENQUEUED, msg.Command);
+            MessageDispatcher.Instance.DispatchMessage(successMsg);
+
+            if (m_commandQueue.Count >= m_capacity)
+            {
+                var atCapacityMsg = new Message(GameEvents.COMMAND_QUEUE_AT_CAPACITY);
+                MessageDispatcher.Instance.DispatchMessage(atCapacityMsg);
+            }
+        }
+        else
+        {
+            var failedMsg = new CommandMessage(GameEvents.COMMAND_FAILED_TO_ENQUEUE, msg.Command);
+            MessageDispatcher.Instance.DispatchMessage(failedMsg);
         }
     }
 }
