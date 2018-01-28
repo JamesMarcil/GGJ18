@@ -34,7 +34,7 @@ public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
         BaseCommand command = msg.Command;
 
         GameObject prefab = m_prefabs[command.Type];
-        GameObject newObj = Instantiate(prefab, transform);
+        Instantiate(prefab, transform);
     }
 
     private void OnRemoveCommand(Message message)
