@@ -10,9 +10,23 @@ public class OccupyNode : MonoBehaviour
         }
         set
         {
+            Node previous = m_current;
+
             m_current = value;
 
-            transform.localPosition = m_current.GetCenter();
+            Node current = value;
+
+            if (previous)
+            {
+                previous.OnExitNode.Invoke(gameObject);
+            }
+
+            if (current)
+            {
+                current.OnEnterNode.Invoke(gameObject);
+
+                transform.localPosition = m_current.GetCenter();
+            }
         }
     }
 

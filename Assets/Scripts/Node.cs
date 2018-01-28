@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Node : MonoBehaviour
 {
@@ -11,6 +12,15 @@ public class Node : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private int m_index;
+
+    public NodeEvent OnEnterNode { get; private set; }
+    public NodeEvent OnExitNode { get; private set; }
+
+    private void Awake()
+    {
+        OnEnterNode = new NodeEvent();
+        OnExitNode = new NodeEvent();
+    }
 
     public bool GetAdjacentInDirection(Directions direction, out GameObject obj)
     {
@@ -121,4 +131,9 @@ public class Node : MonoBehaviour
         component.m_index = index;
         return component;
     }
+
+    public class NodeEvent : UnityEvent<GameObject>
+    {
+    }
+
 }
