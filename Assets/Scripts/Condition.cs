@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Condition : ScriptableObject
+public abstract class Condition : MonoBehaviour
 {
     abstract public bool IsConditionSatisfied();
 

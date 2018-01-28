@@ -19,11 +19,12 @@ public class CommandProcessor : MonoBehaviour
         }
         set
         {
-            m_currentIndex = Mathf.Min(Mathf.Max(0, value), m_commandQueue.Queue.Count);
+            m_currentIndex = Mathf.Min(Mathf.Max(0, value), m_commandQueue.Queue.Count - 1);
 
-            if (m_currentIndex >= m_commandQueue.Queue.Count)
+            if (value >= m_commandQueue.Queue.Count)
             {
-                enabled = false;
+                var stopMsg = new Message(GameEvents.COMMAND_QUEUE_STOP_PROCESSING);
+                MessageDispatcher.Instance.DispatchMessage(stopMsg);
             }
         }
     }
@@ -79,10 +80,11 @@ public class CommandProcessor : MonoBehaviour
                 {
                     CurrentCommand.OnStop(gameObject);
 
-                    var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_FAILED_TO_PROCESS_COMMAND, CurrentIndex);
-                    MessageDispatcher.Instance.DispatchMessage(msg);
+                    var failedMsg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_FAILED_TO_PROCESS_COMMAND, CurrentIndex);
+                    MessageDispatcher.Instance.DispatchMessage(failedMsg);
 
-                    enabled = false;
+                    var stopMsg = new Message(GameEvents.COMMAND_QUEUE_STOP_PROCESSING);
+                    MessageDispatcher.Instance.DispatchMessage(stopMsg);
 
                     break;
                 }
