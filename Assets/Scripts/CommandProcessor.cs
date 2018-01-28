@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CommandQueue))]
 public class CommandProcessor : MonoBehaviour
 {
     private BaseCommand CurrentCommand
@@ -31,12 +30,8 @@ public class CommandProcessor : MonoBehaviour
 
     private int m_currentIndex;
 
+    [SerializeField]
     private CommandQueue m_commandQueue;
-
-    private void Awake()
-    {
-        m_commandQueue = GetComponent<CommandQueue>();
-    }
 
     private void OnEnable()
     {
