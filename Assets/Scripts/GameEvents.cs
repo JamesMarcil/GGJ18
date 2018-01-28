@@ -5,6 +5,8 @@ public static class GameEvents
 
     public const string ENQUEUE_COMMAND = "GameEvents_ENQUEUE_COMMAND";
 
+    public const string REMOVE_COMMAND = "GameEvents_REMOVE_COMMAND";
+
     public const string COMMAND_FAILED_TO_ENQUEUE = "GameEvents_COMMAND_FAILED_TO_ENQUEUE";
     public const string COMMAND_SUCCESSFULLY_ENQUEUED = "GameEvents_COMMAND_SUCCESSFULLY_ENQUEUED";
 

@@ -23,11 +23,13 @@ public class CommandQueue : MonoBehaviour
     private void Awake()
     {
         MessageDispatcher.Instance.AddListener(GameEvents.ENQUEUE_COMMAND, OnEnqueueCommand);
+        MessageDispatcher.Instance.AddListener(GameEvents.REMOVE_COMMAND, OnRemoveCommand);
     }
 
     private void OnDestroy()
     {
         MessageDispatcher.Instance.RemoveListener(GameEvents.ENQUEUE_COMMAND, OnEnqueueCommand);
+        MessageDispatcher.Instance.RemoveListener(GameEvents.REMOVE_COMMAND, OnRemoveCommand);
     }
 
     private void OnEnqueueCommand(Message message)
@@ -51,6 +53,16 @@ public class CommandQueue : MonoBehaviour
         {
             var failedMsg = new CommandMessage(GameEvents.COMMAND_FAILED_TO_ENQUEUE, msg.Command);
             MessageDispatcher.Instance.DispatchMessage(failedMsg);
+        }
+    }
+
+    private void OnRemoveCommand(Message message)
+    {
+        var msg = message as RemoveCommandMessage;
+
+        if ((msg.Index >= 0) && (msg.Index < m_commandQueue.Count))
+        {
+            m_commandQueue.RemoveAt(msg.Index);
         }
     }
 }

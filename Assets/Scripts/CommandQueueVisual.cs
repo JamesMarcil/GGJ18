@@ -18,11 +18,13 @@ public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
     private void Awake()
     {
         MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_SUCCESSFULLY_ENQUEUED, OnEnqueueCommand);
+        MessageDispatcher.Instance.AddListener(GameEvents.REMOVE_COMMAND, OnRemoveCommand);
     }
 
     private void OnDestroy()
     {
         MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_SUCCESSFULLY_ENQUEUED, OnEnqueueCommand);
+        MessageDispatcher.Instance.RemoveListener(GameEvents.REMOVE_COMMAND, OnRemoveCommand);
     }
 
     private void OnEnqueueCommand(Message message)
@@ -33,6 +35,15 @@ public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
 
         GameObject prefab = m_prefabs[command.Type];
         GameObject newObj = Instantiate(prefab, transform);
+    }
+
+    private void OnRemoveCommand(Message message)
+    {
+        var msg = message as RemoveCommandMessage;
+
+        Transform child = transform.GetChild(msg.Index + 1);
+        GameObject obj = child.gameObject;
+        Destroy(obj);
     }
 
     public void OnBeforeSerialize()
