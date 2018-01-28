@@ -2,11 +2,10 @@ using System.Text;
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEditor;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(TileFactory))]
-public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
+public class GameGrid : MonoBehaviour
 {
     public int Width
     {
@@ -62,16 +61,6 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
     [SerializeField]
     [HideInInspector]
-    private List<int> m_keys = new List<int>();
-
-    [SerializeField]
-    [HideInInspector]
-    private List<GameObject> m_values = new List<GameObject>();
-
-    private Dictionary<int, GameObject> m_gameObjects = new Dictionary<int, GameObject>();
-
-    [SerializeField]
-    [HideInInspector]
     private GameObject[] m_grid;
 
     [SerializeField]
@@ -95,31 +84,6 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
     private void Awake()
     {
         m_factory = GetComponent<TileFactory>();
-    }
-
-    public void OnBeforeSerialize()
-    {
-        m_keys.Clear();
-        m_values.Clear();
-
-        foreach (KeyValuePair<int, GameObject> pair in m_gameObjects)
-        {
-            m_keys.Add(pair.Key);
-            m_values.Add(pair.Value);
-        }
-    }
-
-    public void OnAfterDeserialize()
-    {
-        m_gameObjects.Clear();
-
-        int count = Mathf.Min(m_keys.Count, m_values.Count);
-        for (int i = 0; i < count; i++)
-        {
-            int key = m_keys[i];
-            GameObject value = m_values[i];
-            m_gameObjects.Add(key, value);
-        }
     }
 
     public bool HasGrid()
@@ -150,10 +114,6 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
                 Destroy(obj);
             }
         }
-
-        m_keys.Clear();
-        m_values.Clear();
-        m_gameObjects.Clear();
 
         m_hasGeneratedGrid = false;
     }
@@ -414,9 +374,6 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         GameObject prefab = m_factory.GetPrefabForType(type);
         GameObject newObj = Instantiate(prefab, transform);
 
-        int newInstanceId = newObj.GetInstanceID();
-        m_gameObjects.Add(newInstanceId, newObj);
-        
         m_grid[index] = newObj;
 
         int row;
@@ -429,43 +386,38 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
         buffer.Append(column);
         newObj.name = buffer.ToString();
 
-        Node.Make(newObj, this, index);
-        ReplaceTile.Make(newObj, this);
+        Node.Make(newObj, this, index, type);
+        ReplaceNode.Make(newObj, this);
         GridPosition.Make(newObj, this, row, column);
 
         return newObj;
     }
 
-    public void ReplaceWithTileOfType(GameObject obj, TileType type)
+    public Node ReplaceWithTileOfType(Node node, TileType type)
     {
-        int instanceId = obj.GetInstanceID();
-        if (m_gameObjects.ContainsKey(instanceId))
+        if (IsValidIndex(node.Id))
         {
-            m_gameObjects.Remove(instanceId);
+            GameObject newObj = MakeTile(type, node.Id);
+            Node newNode = newObj.GetComponent<Node>();
 
-            int index;
-            var gridPosition = obj.GetComponent<GridPosition>();
-            GetIndexFromRowAndColumn(gridPosition.Row, gridPosition.Column, out index);
-
-            GameObject newObj = MakeTile(type, index);
+            int siblingIndex = node.gameObject.transform.GetSiblingIndex();
+            newObj.transform.SetSiblingIndex(siblingIndex);
 
             if (Application.isEditor)
             {
-                int siblingIndex = obj.transform.GetSiblingIndex();
-                newObj.transform.SetSiblingIndex(siblingIndex);
-
-                Selection.activeGameObject = newObj;
-                EditorApplication.ExecuteMenuItem("Window/Hierarchy");
-
-                DestroyImmediate(obj);
+                DestroyImmediate(node.gameObject);
             }
             else
             {
-                Destroy(obj);
+                Destroy(node.gameObject);
             }
 
             ClearConnectivity();
             GenerateConnectivity();
+
+            return newNode;
         }
+
+        return node;
     }
 }

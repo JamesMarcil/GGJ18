@@ -5,13 +5,33 @@ using UnityEngine.Events;
 
 public class Node : MonoBehaviour
 {
+    public int Id 
+    {
+        get
+        {
+            return m_id;
+        }
+    }
+
+    public TileType Type
+    {
+        get
+        {
+            return m_type;
+        }
+    }
+
     [SerializeField]
     [HideInInspector]
     private GameGrid m_grid;
 
     [SerializeField]
     [HideInInspector]
-    private int m_index;
+    private TileType m_type;
+
+    [SerializeField]
+    [HideInInspector]
+    private int m_id;
 
     public NodeEvent OnEnterNode { get; private set; }
     public NodeEvent OnExitNode { get; private set; }
@@ -28,7 +48,7 @@ public class Node : MonoBehaviour
 
         int row;
         int column;
-        if (m_grid.GetRowAndColumnFromIndex(m_index, out row, out column))
+        if (m_grid.GetRowAndColumnFromIndex(m_id, out row, out column))
         {
             int targetRow;
             int targetColumn;
@@ -89,7 +109,7 @@ public class Node : MonoBehaviour
 
     public IEnumerable<GameObject> AdjacentNodes()
     {
-        foreach (int index in m_grid.AdjacentFromIndex(m_index))
+        foreach (int index in m_grid.AdjacentFromIndex(m_id))
         {
             GameObject obj;
             if (m_grid.GetGameObjectFromIndex(index, out obj))
@@ -101,7 +121,7 @@ public class Node : MonoBehaviour
 
     public IEnumerable<GameObject> ConnectedNodes()
     {
-        foreach (int index in m_grid.ConnectedNeighborsFromIndex(m_index))
+        foreach (int index in m_grid.ConnectedNeighborsFromIndex(m_id))
         {
             GameObject obj;
             if (m_grid.GetGameObjectFromIndex(index, out obj))
@@ -114,21 +134,22 @@ public class Node : MonoBehaviour
     public Vector3 GetCenter()
     {
         Vector3 center;
-        m_grid.GetCenterFromIndex(m_index, out center);
+        m_grid.GetCenterFromIndex(m_id, out center);
         
         return center;
     }
 
     public bool IsConnected(Node rhs)
     {
-        return m_grid.IsConnected(m_index, rhs.m_index);
+        return m_grid.IsConnected(m_id, rhs.m_id);
     }
 
-    public static Node Make(GameObject owner, GameGrid grid, int index)
+    public static Node Make(GameObject owner, GameGrid grid, int index, TileType type)
     {
         var component = owner.AddComponent<Node>();
         component.m_grid = grid;
-        component.m_index = index;
+        component.m_id = index;
+        component.m_type = type;
         return component;
     }
 

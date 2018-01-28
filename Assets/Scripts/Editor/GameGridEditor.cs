@@ -25,6 +25,26 @@ public class GameGridEditor : Editor
         m_grid = target as GameGrid;
     }
 
+    private void GenerateGrid()
+    {
+        m_grid.GenerateGrid();
+    }
+
+    private void GenerateConnectivity()
+    {
+        m_grid.GenerateConnectivity();
+    }
+
+    private void ClearGrid()
+    {
+        m_grid.ClearGrid();
+    }
+
+    private void ClearConnectivity()
+    {
+        m_grid.ClearConnectivity();
+    }
+
     override public void OnInspectorGUI()
     {
         serializedObject.Update();
@@ -61,28 +81,28 @@ public class GameGridEditor : Editor
         EditorGUI.BeginDisabledGroup(m_grid.HasGrid());
         if (GUILayout.Button("Generate New Grid"))
         {
-            m_grid.GenerateGrid();
+            GenerateGrid();
         }
         EditorGUI.EndDisabledGroup();
 
         EditorGUI.BeginDisabledGroup(!m_grid.HasGrid());
         if (GUILayout.Button("Generate Connectivity"))
         {
-            m_grid.GenerateConnectivity();
+            GenerateConnectivity();
         }
         EditorGUI.EndDisabledGroup();
 
         EditorGUI.BeginDisabledGroup(!m_grid.HasGrid());
         if (GUILayout.Button("Clear Grid"))
         {
-            m_grid.ClearGrid();
+            ClearGrid();
         }
         EditorGUI.EndDisabledGroup();
 
         EditorGUI.BeginDisabledGroup(!m_grid.HasConnectivity());
         if (GUILayout.Button("Clear Connectivity"))
         {
-            m_grid.ClearConnectivity();
+            ClearConnectivity();
         }
         EditorGUI.EndDisabledGroup();
 

@@ -3,14 +3,14 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ReplaceTile))]
-public class ReplaceTileEditor : Editor
+[CustomEditor(typeof(ReplaceNode))]
+public class ReplaceNodeEditor : Editor
 {
-    private ReplaceTile m_replaceTile;
+    private ReplaceNode m_replaceTile;
 
     private void Awake()
     {
-        m_replaceTile = target as ReplaceTile;
+        m_replaceTile = target as ReplaceNode;
     }
 
     override public void OnInspectorGUI()
@@ -30,7 +30,10 @@ public class ReplaceTileEditor : Editor
 
             if (GUILayout.Button("Replace with " + type))
             {
-                m_replaceTile.ReplaceWithType(type);
+                Node newNode = m_replaceTile.ReplaceWithType(type);
+
+                Selection.activeGameObject = newNode.gameObject;
+                EditorApplication.ExecuteMenuItem("Window/Hierarchy");
             }
         }
     }

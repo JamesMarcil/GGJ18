@@ -1,8 +1,9 @@
 using UnityEngine;
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(Node))]
 [RequireComponent(typeof(TileInfo))]
-public class ReplaceTile : MonoBehaviour
+public class ReplaceNode : MonoBehaviour
 {
     public TileType Type
     {
@@ -16,21 +17,23 @@ public class ReplaceTile : MonoBehaviour
     [HideInInspector]
     private GameGrid m_grid;
 
+    private Node m_node;
     private TileInfo m_info;
 
     private void Awake()
     {
+        m_node = GetComponent<Node>();
         m_info = GetComponent<TileInfo>();
     }
 
-    public void ReplaceWithType(TileType type)
+    public Node ReplaceWithType(TileType type)
     {
-        m_grid.ReplaceWithTileOfType(gameObject, type);
+        return m_grid.ReplaceWithTileOfType(m_node, type);
     }
 
-    public static ReplaceTile Make(GameObject owner, GameGrid grid)
+    public static ReplaceNode Make(GameObject owner, GameGrid grid)
     {
-        var component = owner.AddComponent<ReplaceTile>();
+        var component = owner.AddComponent<ReplaceNode>();
         component.m_grid = grid;
         return component;
     }
