@@ -18,13 +18,13 @@ public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
     private void Awake()
     {
         MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_SUCCESSFULLY_ENQUEUED, OnEnqueueCommand);
-        MessageDispatcher.Instance.AddListener(GameEvents.REMOVE_COMMAND, OnRemoveCommand);
+        MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_QUEUE_REMOVE_COMMAND, OnRemoveCommand);
     }
 
     private void OnDestroy()
     {
         MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_SUCCESSFULLY_ENQUEUED, OnEnqueueCommand);
-        MessageDispatcher.Instance.RemoveListener(GameEvents.REMOVE_COMMAND, OnRemoveCommand);
+        MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_QUEUE_REMOVE_COMMAND, OnRemoveCommand);
     }
 
     private void OnEnqueueCommand(Message message)
