@@ -37,6 +37,19 @@ public class CommandProcessor : MonoBehaviour
         m_commandQueue = GetComponent<CommandQueue>();
     }
 
+    private void OnEnable()
+    {
+        m_currentIndex = 0;
+    }
+
+    private void OnDisable()
+    {
+        if (CurrentCommand.IsStarted)
+        {
+            CurrentCommand.OnStop(gameObject);
+        }
+    }
+
     private void Update()
     {
         if (!CurrentCommand.IsStarted)

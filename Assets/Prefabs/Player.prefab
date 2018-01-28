@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114271395072056746}
   - component: {fileID: 114178882843722068}
   - component: {fileID: 114307515055111662}
+  - component: {fileID: 114751242514282616}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -124,6 +125,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_current: {fileID: 0}
+--- !u!114 &114751242514282616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051408900457054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a21bb9c7c2c0543b37b055c887277c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_messageToListenFor: GameEvents_COMMAND_QUEUE_STOP_PROCESSING
+  m_valueToSet: 0
+  m_initialState: 0
+  m_target: {fileID: 114178882843722068}
 --- !u!212 &212122052627851994
 SpriteRenderer:
   m_ObjectHideFlags: 1

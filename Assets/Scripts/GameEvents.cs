@@ -12,6 +12,7 @@ public static class GameEvents
     public const string COMMAND_QUEUE_NO_LONGER_AT_CAPACITY = "GameEvents_COMMAND_QUEUE_NO_LONGER_AT_CAPACITY";
     public const string COMMAND_QUEUE_AT_CAPACITY = "GameEvents_COMMAND_QUEUE_AT_CAPACITY";
     public const string COMMAND_QUEUE_BEGIN_PROCESSING = "GameEvents_COMMAND_QUEUE_BEGIN_PROCESSING";
+    public const string COMMAND_QUEUE_STOP_PROCESSING = "GameEvents_COMMAND_QUEUE_STOP_PROCESSING";
 
     public const string GAME_SUCCESS = "GameEvents_GAME_SUCCESS";
     public const string GAME_FAILURE = "GameEvents_GAME_FAILURE";
