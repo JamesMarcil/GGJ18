@@ -2,5 +2,6 @@ public enum TileType
 {
     SPACE,
     WALL,
-    GOAL
+    GOAL,
+    BUTTON
 }
