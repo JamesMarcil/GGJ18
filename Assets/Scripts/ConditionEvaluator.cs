@@ -12,21 +12,6 @@ public class ConditionEvaluator : MonoBehaviour
     private void Start()
     {
         m_conditions = GetComponents<Condition>();
-
-        for (int i = 0; i < m_conditions.Length; i++)
-        {
-            var condition = m_conditions[i];
-            condition.OnStart();
-        }
-    }
-
-    private void Update()
-    {
-        for (int i = 0; i < m_conditions.Length; i++)
-        {
-            var condition = m_conditions[i];
-            condition.OnUpdate();
-        }
     }
 
     private void OnDestroy()
@@ -44,12 +29,6 @@ public class ConditionEvaluator : MonoBehaviour
             {
                 allConditionsSatisfied = false;
             }
-        }
-
-        for (int i = 0; i < m_conditions.Length; i++)
-        {
-            var condition = m_conditions[i];
-            condition.OnStop();
         }
 
         Message msg;

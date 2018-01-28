@@ -8,6 +8,11 @@ public class EntityInGoal : Condition
 
     private GameObject[] m_players;
 
+    private void Start()
+    {
+        m_players = GameObject.FindGameObjectsWithTag("Player");
+    }
+
     override public bool IsConditionSatisfied()
     {
         for (int i = 0; i < m_players.Length; i++)
@@ -22,10 +27,5 @@ public class EntityInGoal : Condition
         }
 
         return false;
-    }
-
-    override public void OnStart()
-    {
-        m_players = GameObject.FindGameObjectsWithTag("Player");
     }
 }
