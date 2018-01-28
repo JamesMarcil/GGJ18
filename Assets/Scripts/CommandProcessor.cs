@@ -17,7 +17,7 @@ public class CommandProcessor : MonoBehaviour
         {
             return m_currentIndex;
         }
-        set 
+        set
         {
             m_currentIndex = Mathf.Min(Mathf.Max(0, value), m_commandQueue.Queue.Count);
 
@@ -41,6 +41,9 @@ public class CommandProcessor : MonoBehaviour
     {
         if (!CurrentCommand.IsStarted)
         {
+            var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_PROCESSING_COMMAND, CurrentIndex);
+            MessageDispatcher.Instance.DispatchMessage(msg);
+
             CurrentCommand.OnStart(gameObject);
         }
 
@@ -52,6 +55,9 @@ public class CommandProcessor : MonoBehaviour
                 {
                     CurrentCommand.OnStop(gameObject);
 
+                    var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_SUCCESSFULLY_PROCESSED_COMMAND, CurrentIndex);
+                    MessageDispatcher.Instance.DispatchMessage(msg);
+
                     CurrentIndex += 1;
 
                     break;
@@ -59,6 +65,9 @@ public class CommandProcessor : MonoBehaviour
             case CommandStatus.FAILURE:
                 {
                     CurrentCommand.OnStop(gameObject);
+
+                    var msg = new CommandAtIndexMessage(GameEvents.COMMAND_QUEUE_FAILED_TO_PROCESS_COMMAND, CurrentIndex);
+                    MessageDispatcher.Instance.DispatchMessage(msg);
 
                     enabled = false;
 

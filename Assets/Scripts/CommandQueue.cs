@@ -58,7 +58,7 @@ public class CommandQueue : MonoBehaviour
 
     private void OnRemoveCommand(Message message)
     {
-        var msg = message as RemoveCommandMessage;
+        var msg = message as CommandAtIndexMessage;
 
         if ((msg.Index >= 0) && (msg.Index < m_commandQueue.Count))
         {

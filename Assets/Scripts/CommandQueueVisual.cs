@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
 {
@@ -19,12 +20,18 @@ public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
     {
         MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_SUCCESSFULLY_ENQUEUED, OnEnqueueCommand);
         MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_QUEUE_REMOVE_COMMAND, OnRemoveCommand);
+        MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_QUEUE_PROCESSING_COMMAND, OnProcessingCommand);
+        MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_QUEUE_SUCCESSFULLY_PROCESSED_COMMAND, OnSuccessfullyProcessed);
+        MessageDispatcher.Instance.AddListener(GameEvents.COMMAND_QUEUE_FAILED_TO_PROCESS_COMMAND, OnFailedToProcess);
     }
 
     private void OnDestroy()
     {
         MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_SUCCESSFULLY_ENQUEUED, OnEnqueueCommand);
         MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_QUEUE_REMOVE_COMMAND, OnRemoveCommand);
+        MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_QUEUE_PROCESSING_COMMAND, OnProcessingCommand);
+        MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_QUEUE_SUCCESSFULLY_PROCESSED_COMMAND, OnSuccessfullyProcessed);
+        MessageDispatcher.Instance.RemoveListener(GameEvents.COMMAND_QUEUE_FAILED_TO_PROCESS_COMMAND, OnFailedToProcess);
     }
 
     private void OnEnqueueCommand(Message message)
@@ -39,11 +46,44 @@ public class CommandQueueVisual : MonoBehaviour, ISerializationCallbackReceiver
 
     private void OnRemoveCommand(Message message)
     {
-        var msg = message as RemoveCommandMessage;
+        var msg = message as CommandAtIndexMessage;
 
         Transform child = transform.GetChild(msg.Index + 1);
         GameObject obj = child.gameObject;
         Destroy(obj);
+    }
+
+    private void OnProcessingCommand(Message message)
+    {
+        var msg = message as CommandAtIndexMessage;
+
+        Transform child = transform.GetChild(msg.Index + 1);
+        GameObject obj = child.gameObject;
+
+        var component = obj.GetComponent<Image>();
+        component.color = Color.yellow;
+    }
+
+    private void OnSuccessfullyProcessed(Message message)
+    {
+        var msg = message as CommandAtIndexMessage;
+
+        Transform child = transform.GetChild(msg.Index + 1);
+        GameObject obj = child.gameObject;
+
+        var component = obj.GetComponent<Image>();
+        component.color = Color.green;
+    }
+
+    private void OnFailedToProcess(Message message)
+    {
+        var msg = message as CommandAtIndexMessage;
+
+        Transform child = transform.GetChild(msg.Index + 1);
+        GameObject obj = child.gameObject;
+
+        var component = obj.GetComponent<Image>();
+        component.color = Color.red;
     }
 
     public void OnBeforeSerialize()
