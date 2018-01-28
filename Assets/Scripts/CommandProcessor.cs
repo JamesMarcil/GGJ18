@@ -1,12 +1,13 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CommandQueue))]
 public class CommandProcessor : MonoBehaviour
 {
     private BaseCommand CurrentCommand
     {
         get
         {
-            return m_commands[m_currentIndex];
+            return m_commandQueue.Queue[m_currentIndex];
         }
     }
 
@@ -18,9 +19,9 @@ public class CommandProcessor : MonoBehaviour
         }
         set 
         {
-            m_currentIndex = Mathf.Min(Mathf.Max(0, value), m_commands.Length);
+            m_currentIndex = Mathf.Min(Mathf.Max(0, value), m_commandQueue.Queue.Count);
 
-            if (m_currentIndex >= m_commands.Length)
+            if (m_currentIndex >= m_commandQueue.Queue.Count)
             {
                 enabled = false;
             }
@@ -29,8 +30,12 @@ public class CommandProcessor : MonoBehaviour
 
     private int m_currentIndex;
 
-    [SerializeField]
-    private BaseCommand[] m_commands;
+    private CommandQueue m_commandQueue;
+
+    private void Awake()
+    {
+        m_commandQueue = GetComponent<CommandQueue>();
+    }
 
     private void Update()
     {
