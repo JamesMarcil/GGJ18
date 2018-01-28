@@ -3,5 +3,13 @@ public enum CommandTypes
     MOVE_NORTH,
     MOVE_EAST,
     MOVE_SOUTH,
-    MOVE_WEST
+    MOVE_WEST,
+    MOVE_NORTH_RED,
+    MOVE_EAST_RED,
+    MOVE_SOUTH_RED,
+    MOVE_WEST_RED,
+    MOVE_NORTH_BLUE,
+    MOVE_EAST_BLUE,
+    MOVE_SOUTH_BLUE,
+    MOVE_WEST_BLUE
 }

@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4195688063559474}
   - component: {fileID: 114733071563345502}
+  - component: {fileID: 114621234889618048}
   m_Layer: 0
   m_Name: Red Player
   m_TagString: Player
@@ -70,6 +71,18 @@ Transform:
   m_Father: {fileID: 4195688063559474}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114621234889618048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051408900457054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eaa55b244064194dafa0c172a9f09ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_color: 0
 --- !u!114 &114733071563345502
 MonoBehaviour:
   m_ObjectHideFlags: 1

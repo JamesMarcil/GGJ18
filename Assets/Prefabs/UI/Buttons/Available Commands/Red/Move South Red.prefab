@@ -112,7 +112,7 @@ MonoBehaviour:
         m_MethodName: EnqueueCommand
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: d30661cc484bf3d41be4647f58ebe3c5,
+          m_ObjectArgument: {fileID: 11400000, guid: 37a553a4e217e0a48b2737502ccca560,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: BaseCommandAsset, Assembly-CSharp
           m_IntArgument: 0

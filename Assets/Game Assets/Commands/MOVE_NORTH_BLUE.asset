@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1aafdfa5de4f64db1a53c5e351360f, type: 3}
+  m_Name: MOVE_NORTH_BLUE
+  m_EditorClassIdentifier: 
+  m_type: 8
+  m_color: 1
+  m_command: {fileID: 11400000, guid: 68a1bf7da0c842e49908462d965c0b54, type: 2}
