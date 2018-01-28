@@ -167,7 +167,7 @@ public class GameGrid : MonoBehaviour, ISerializationCallbackReceiver
 
         for (int i = 0; i < NumEntries; i++)
         {
-            MakeTile(TileType.SPACE, i);
+            MakeTile(TileType.WALL, i);
         }
 
         GenerateConnectivity();
